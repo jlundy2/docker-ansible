@@ -17,6 +17,6 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
         tag_with_ref: true
-        # build-args: |
-        #   ANSIBLE_VERSION=${{ github.ref }}          
+        build-args: |
+          ANSIBLE_VERSION=${{ github.ref }}          
 
