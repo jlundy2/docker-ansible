@@ -1,6 +1,7 @@
 name: build-and-push
 
 on:
+  workflow_dispatch:
   release:
     types: [created]
 
@@ -9,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - id: docker-tag
+      uses: yuya-takeyama/docker-tag-from-github-ref-action@v1
     - name: Build and push Docker images
       uses: docker/build-push-action@v1.1.0
       with:
@@ -16,4 +19,4 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
         tag_with_ref: true
-        build_args: ANSIBLE_VERSION=${{ github.ref }}
+        build_args: ANSIBLE_VERSION=${{ steps.docker-tag.outputs.tag }}
